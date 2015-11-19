@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\OutputAnalyzer.cs">
+    <Files>
+      <File FileName="..\Cards Against Security\Assets\DragHandler.cs" Line="1" Column="1" />
+      <File FileName="..\Cards Against Security\Assets\Slot.cs" Line="1" Column="1" />
+      <File FileName="..\Cards Against Security\Assets\Field.cs" Line="25" Column="28" />
+      <File FileName="Assets\_Scripts\OutputAnalyzer.cs" Line="14" Column="24" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
