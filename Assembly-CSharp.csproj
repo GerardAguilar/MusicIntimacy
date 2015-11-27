@@ -52,7 +52,9 @@
      <Compile Include="Assets\_Scripts\CameraFollow.cs" />
      <Compile Include="Assets\_Scripts\DropCylinder.cs" />
      <Compile Include="Assets\_Scripts\ModifyLine.cs" />
+     <Compile Include="Assets\_Scripts\MusicalNotes Info.cs" />
      <Compile Include="Assets\_Scripts\OutputAnalyzer.cs" />
+     <Compile Include="Assets\_Scripts\OutputAnalyzer2.cs" />
      <Compile Include="Assets\_Scripts\PixelChanger.cs" />
      <Compile Include="Assets\_Scripts\TestBeat.cs" />
      <Compile Include="Assets\_Scripts\TrackArtifacts.cs" />

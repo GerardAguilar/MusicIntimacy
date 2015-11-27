@@ -23,6 +23,10 @@ using System.Collections.Generic;
 
 public class OutputAnalyzer : MonoBehaviour, AudioProcessor2.AudioCallbacks {
 	float[] outputData;
+	public int[] freqCheck;
+	float[] spectrumData;
+	public List<int> whichI;
+	int currentHighest;
 	public GameObject plane;
 //	public GameObject plane2;
 //	public GameObject plane3;
@@ -99,15 +103,30 @@ public class OutputAnalyzer : MonoBehaviour, AudioProcessor2.AudioCallbacks {
 
 	int warp;
 
+	float spectrumCheck;
+	float spectrumVal;
+	int spectrumI;
+
 	// Use this for initialization
 	void Start () {
+		spectrumCheck = 0;
+		spectrumVal = 0;
+		spectrumI = 0;
+		whichI = new List<int> ();
+		freqCheck = new int[8192];
 		flip = false;
 		startBranch = 100000;
 		beatRadiusChange = 0;
 		storageStepper = 0;
 		beatHappened = false;
 //		audio = GetComponent<AudioSource> ();
-		outputData = new float[1024];
+//		outputData = new float[1024];
+//		outputData = new float[2048];
+		outputData = new float[8192];
+//		outputData = new float[16384];
+//		outputData = new float[32768];
+//		outputData = new float[65536];
+		spectrumData = new float[8192];
 //		beatStorage = new List<int>();
 //		beatStorage.Add (new List<int> ());
 		amp = 0;
@@ -115,6 +134,7 @@ public class OutputAnalyzer : MonoBehaviour, AudioProcessor2.AudioCallbacks {
 		pxChanger = plane.GetComponent<PixelChanger> ();
 		red = false;
 		highest = 0;
+		currentHighest = 0;
 		newScale = new Vector3 (0, 0, 0);
 		triggered = 1;
 		myRigidbody = plane.GetComponent<Rigidbody> ();
@@ -144,6 +164,8 @@ public class OutputAnalyzer : MonoBehaviour, AudioProcessor2.AudioCallbacks {
 		currentArtifact = 0;
 
 		readyTransition = false;
+
+		Debug.Log ("Sampling Rate: " + AudioSettings.outputSampleRate);
 	}
 
 	public void onOnbeatDetected(){
@@ -160,6 +182,14 @@ public class OutputAnalyzer : MonoBehaviour, AudioProcessor2.AudioCallbacks {
 	// Update is called once per frame
 	void Update () {
 		AudioListener.GetOutputData (outputData, 0);
+		AudioListener.GetSpectrumData (spectrumData, 0, FFTWindow.BlackmanHarris);
+
+//		float results = 
+//			(float)spectrumData [80] + 
+//				(float)spectrumData [81] +  
+//				(float)spectrumData [82];
+
+//		Debug.Log ("spectrum for 440Hz: " + results);
 		segmentRow = floor;
 
 		//When a button is held, store the beat into the object as an array of times
@@ -167,6 +197,7 @@ public class OutputAnalyzer : MonoBehaviour, AudioProcessor2.AudioCallbacks {
 			traceCheck = true;
 			Debug.Log ("Trace: audio.timeSamples: " + audio.timeSamples);
 			artifacts[currentArtifact].AddBeat(audio.timeSamples);
+			Debug.Log ("Audio.name: " + audio.name);
 //			storageStepper++;
 		}
 
@@ -184,10 +215,26 @@ public class OutputAnalyzer : MonoBehaviour, AudioProcessor2.AudioCallbacks {
 		//Give the user the choice to transition to that other song
 
 		//draws each frequency (creates a circle) depending on sampled amp of that freq from GetOutputData
-		for(int i=0; i<1024; i++){
+//		for(int i=0; i<1024; i++){
+//		for(int i=0; i<2048; i++){
+		for(int i=0; i<8192; i++){
+//		for(int i=0; i<16384; i++){
+//		for(int i=0; i<32768; i++){
+//		for(int i=0; i<65536; i++){
 			amp = outputData[i];
+			spectrumVal = spectrumData[i];
+
+			//see MusicalNotes Info.cs for amp# designations of notes
 			if(amp>highest){
 				highest = amp;
+				whichI.Add(i);
+				currentHighest = i;
+			}
+
+			if(spectrumVal>spectrumCheck){
+				Debug.Log ("SpectrumVal: " + spectrumVal);
+				spectrumCheck = spectrumVal;
+				spectrumI = i;
 			}
 			//We'll have to modify the coordinates inside this for loop to link the array cells with the new coordinates
 			//represents each of the 1024 frequencies as a point in the circumference of a circle
@@ -205,7 +252,9 @@ public class OutputAnalyzer : MonoBehaviour, AudioProcessor2.AudioCallbacks {
 				needJump=true;
 				segmentJump = (float)amp*10;
 			}
-
+			if(amp >.2){
+				freqCheck[i] = freqCheck[i]+1;
+			}
 			if(amp<.2){
 				color = Color.black;
 			}
@@ -261,8 +310,18 @@ public class OutputAnalyzer : MonoBehaviour, AudioProcessor2.AudioCallbacks {
 				plane.GetComponent<PixelChanger>().DrawPixel (x+j, y-j, color);
 				plane.GetComponent<PixelChanger>().DrawPixel (x-j, y+j, color);
 			} 
-//			
+
+
 		}
+
+		Debug.Log ("spectrumI: " + spectrumI);
+		spectrumI = 0;
+//		for (int i=0; i<whichI.Count; i++) {
+//			Debug.Log ("Index of highest: " + whichI[i]);
+//		}
+//		Debug.Log ("highest: " + highest + " currentHighest: " + currentHighest);
+//		Debug.Log ("currentHighest: " + currentHighest);
+//		highest = 0;
 		//radiates our radius outwards
 		newRadius = newRadius + jump;
 		//resets the radius when outside the circle

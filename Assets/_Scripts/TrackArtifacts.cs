@@ -6,6 +6,7 @@ public class TrackArtifacts : MonoBehaviour {
 
 	public List<int> beatStorage;
 	public List<int> beatDifferenceOneStep;
+	public List<int> noteStorage;
 //	public List<int> beatDifferenceTwoStep;
 //	public List<int> beatDifferenceThreeStep;
 //	public List<int> beatDifferenceFourStep;
@@ -14,6 +15,7 @@ public class TrackArtifacts : MonoBehaviour {
 
 	bool newStep;
 	int beatCount;
+	int noteCount;
 	int ceiling;
 	int previousBeatTime;
 	int match;
@@ -24,6 +26,7 @@ public class TrackArtifacts : MonoBehaviour {
 	void Start () {
 		beatStorage = new List<int>();
 		beatDifferenceOneStep = new List<int> ();
+		noteStorage = new List<int> ();
 //		beatDifferenceTwoStep = new List<int> ();
 //		beatDifferenceThreeStep = new List<int> ();
 //		beatDifferenceFourStep = new List<int> ();
@@ -50,6 +53,11 @@ public class TrackArtifacts : MonoBehaviour {
 		beatStorage.Add (newBeat);
 		beatCount++;
 		MapBeats(newBeat);
+	}
+
+	public void AddNote(int newNote){
+		noteStorage.Add (newNote);
+		noteCount++;
 	}
 	void MapBeats(int newBeat){//check the time difference on each consecutive step
 

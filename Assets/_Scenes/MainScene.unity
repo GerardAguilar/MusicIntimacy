@@ -900,6 +900,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c0b5888b7f6fc14c8dfaed969b4a5e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  freqCheck: 
+  whichI: 
   plane: {fileID: 1148869268}
   cube: {fileID: 352178715}
   line: {fileID: 1887010213}
@@ -1079,7 +1081,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e08509ba28cc60241b5903ba2d8533fc, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 064ea5e277576a946a88548001f93c94, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1249,6 +1251,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c0b5888b7f6fc14c8dfaed969b4a5e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  freqCheck: 
+  whichI: 
   plane: {fileID: 1148869268}
   cube: {fileID: 352178715}
   line: {fileID: 1887010213}
@@ -1348,7 +1352,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b575006ec33fd014992a3253eaa5f9a6, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1b27f2369fc1eea48bde7cc1f834809c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
