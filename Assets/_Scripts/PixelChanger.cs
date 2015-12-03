@@ -53,16 +53,17 @@ public class PixelChanger : MonoBehaviour {
 	//uses x and y coordinates as passed by program and applies the passed color to it.
 	//doesn't change pixels in real time
 	public void DrawPixel(int x, int y, Color color){
-
+//		Debug.Log ("DrawPixel()");
 //		newTexture.SetPixel (x + 1, y + 1, Color.black);
 		newTexture.SetPixel (x, y, color);
 //		newTexture.SetPixel (x - 1, y - 1, Color.black);
-
+			
 	}
 
 	//since Apply() is expensive, we'll only draw on certain intervals as per the program
 	public void RedrawSprite(){
 //		PulsateObject ();
+//		Debug.Log ("RedrawSprite()");
 		newTexture.Apply ();
 	}
 

@@ -197,6 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beatStorage: 
   beatDifferenceOneStep: 
+  noteStorage: 
 --- !u!1 &254217415
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,7 +358,7 @@ Transform:
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
 --- !u!114 &352178720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,7 +462,7 @@ Transform:
 --- !u!1 &983249957
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 198132, guid: b475e9fd4533d9441b2de392cde39180, type: 2}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 4
   m_Component:
@@ -476,7 +477,7 @@ GameObject:
 --- !u!4 &983249958
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 421760, guid: b475e9fd4533d9441b2de392cde39180, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 983249957}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
@@ -558,7 +559,7 @@ Transform:
   m_LocalScale: {x: -1, y: 1, z: -1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!114 &1037413278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,7 +642,7 @@ Transform:
   m_LocalScale: {x: 20, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
 --- !u!1 &1596910483
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,7 +1004,7 @@ MonoBehaviour:
 --- !u!1 &1839270313
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 120256, guid: b475e9fd4533d9441b2de392cde39180, type: 2}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 4
   m_Component:
@@ -1020,7 +1021,8 @@ GameObject:
 --- !u!114 &1839270314
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 11435068, guid: b475e9fd4533d9441b2de392cde39180,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1839270313}
   m_Enabled: 1
@@ -1033,7 +1035,7 @@ MonoBehaviour:
 --- !u!4 &1839270317
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 496418, guid: b475e9fd4533d9441b2de392cde39180, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1839270313}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
@@ -1046,7 +1048,8 @@ Transform:
 --- !u!114 &1839270318
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 11487072, guid: b475e9fd4533d9441b2de392cde39180,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1839270313}
   m_Enabled: 1
@@ -1081,7 +1084,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 064ea5e277576a946a88548001f93c94, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1b27f2369fc1eea48bde7cc1f834809c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1167,6 +1170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beatStorage: 
   beatDifferenceOneStep: 
+  noteStorage: 
 --- !u!1 &1887010213
 GameObject:
   m_ObjectHideFlags: 0
@@ -1352,7 +1356,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 1b27f2369fc1eea48bde7cc1f834809c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: b575006ec33fd014992a3253eaa5f9a6, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1426,6 +1430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beatStorage: 
   beatDifferenceOneStep: 
+  noteStorage: 
 --- !u!1001 &2087614166
 Prefab:
   m_ObjectHideFlags: 0
@@ -1443,7 +1448,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 466208, guid: 929cd97d59cfae744b40a6681a0cd7a9, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 466208, guid: 929cd97d59cfae744b40a6681a0cd7a9, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1463,7 +1468,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 466208, guid: 929cd97d59cfae744b40a6681a0cd7a9, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 11477758, guid: 929cd97d59cfae744b40a6681a0cd7a9, type: 2}
       propertyPath: line
@@ -1507,7 +1512,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 466208, guid: 929cd97d59cfae744b40a6681a0cd7a9, type: 2}
       propertyPath: m_LocalScale.y
-      value: .100000001
+      value: .100000009
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11477758, guid: 929cd97d59cfae744b40a6681a0cd7a9, type: 2}

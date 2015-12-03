@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 //This script needs to grab info from the output analyzer to change this line's amplitudes
 //This script needs to store line positions in a Vector3 array
-public class ModifyLine : MonoBehaviour {
+public class TraverseLine : MonoBehaviour {
 
 	LineRenderer lineRenderer;
 	int segmentCount;
@@ -14,11 +14,6 @@ public class ModifyLine : MonoBehaviour {
 	int lastSegment;
 	Vector3 newPosition;
 	public List<Vector3> positions;
-
-	Vector3 rightCorner;
-	Vector3 topCorner;
-	Vector3 leftCorner;
-
 
 	// Use this for initialization
 	void Start () {
@@ -50,18 +45,4 @@ public class ModifyLine : MonoBehaviour {
 		Vector3 finalPos = positions [lastSegment];
 		return finalPos;
 	}
-
-//	public void BudOnLastSegmentPosition(float x, float y, float z){
-////		SetLastSegmentPosition (x, y * 1, z);
-//		SetLastSegmentPosition (x, y, z);
-//
-//		//insert leaf
-//		IncreaseLineSize ();
-//		SetLastSegmentPosition (x+.3f, y-3f, z);
-//		IncreaseLineSize ();
-//		SetLastSegmentPosition (x, y-6f, z);
-//		IncreaseLineSize ();
-//		SetLastSegmentPosition (x-.3f, y-3f, z);
-//
-//	}
 }
