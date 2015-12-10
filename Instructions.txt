@@ -1,0 +1,14 @@
+This demo is automatically loaded with two songs.
+The transition functionality is there, but not all errors have been cleared up.
+
+Instructions:
+1. Press "J" (Trace) button multiple times (in time with the music's beat)
+	-the time based on the timesamples will be stored onto the track
+2. Press "K" (New Song) button. 
+	-the track switches to the 2nd song.
+3. Press "I" (Match Song) button.
+	-the track's script checks for a beat match
+4. Press "I" (Match Song) button.
+	-the track's script checks for a note match
+5. Press "O" (Transition Song) button is pressed.
+	-the tracks switches to the first song and will transition given there is a transition.

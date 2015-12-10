@@ -2,21 +2,6 @@
 using System.Collections;
 using UnityEngine.UI;
 
-/**
- * 1. This script will be attached to our track's parent object
- * 2. It will listen to the current track playing and analyze it's spectrum and output data
- * 3. Doing so allows our Draw Background and LineRenderer to react to it.
- * 4. During the for loop to access the values of the track, we will 
- * 4a.	Store the current highestAmplitude onto the track's script
- * 4b.	Store the 5 highest frequency responses onto the track's script
- * 5. When "J" (Trace) button is pressed, the time based on the timesamples will be stored onto the track
- * 6. When "K" (New Song) button is pressed, the track switches to the 2nd song.
- * 7. When "I" (Match Song) button is pressed, the track's script checks for a beat match
- * 8. When "I" (Match Song) button is pressed, the track's script checks for a note match
- * 9. When "O" (Transition Song) button is pressed, the tracks switches to the first song and will transition given there is a transition.
- * */
-
-
 //1. This script will be attached to our track's parent object
 public class OutputAnalyzerClean : MonoBehaviour {
 
@@ -37,6 +22,7 @@ public class OutputAnalyzerClean : MonoBehaviour {
 	float newy;
 	float newx;
 	int beatRadiusChange;
+	Rotate beatBar;
 
 	PixelChanger pxChanger;
 
@@ -54,12 +40,22 @@ public class OutputAnalyzerClean : MonoBehaviour {
 	AudioSource[] tracks;
 	AudioSource audio;
 	int currentTrack;
+	int newTrack;
 	TrackArtifacts[] artifacts;
 	bool readyTransition;
 	int transitionStart;
 	int warp;
+	int temp;
+	
+	GameObject[] transObjects;
+	Button transButton01;
+	Button transButton02;
+	Button transButton10;
+	Button transButton12;
+	Button transButton20;
+	Button transButton21;
 
-	Button transButton;
+	public GameObject bud;
 
 	void Awake(){
 		spectrumData = new float[8192];
@@ -74,6 +70,7 @@ public class OutputAnalyzerClean : MonoBehaviour {
 		flip = false;
 		tracks = GetComponentsInChildren<AudioSource> ();
 		currentTrack = 0;
+		newTrack = 1;
 		audio = tracks [0];
 		artifacts = GetComponentsInChildren<TrackArtifacts> ();
 		readyTransition = false;
@@ -87,7 +84,33 @@ public class OutputAnalyzerClean : MonoBehaviour {
 		for (int i=0; i<topFourVals.Length; i++) {
 			topFourVals[i] = 0;
 		}
-		transButton = GameObject.Find ("ButtonTransition").GetComponent<Button>();
+		transObjects = GameObject.FindGameObjectsWithTag ("TransitionButtons");
+
+		for (int i=0; i<transObjects.Length; i++) {
+//			Debug.Log (i + ": " + transObjects[i]);
+			if(transObjects[i].name.Equals ("01")){
+				transButton01 = transObjects[i].GetComponent<Button>();
+			}else if(transObjects[i].name.Equals ("02")){
+				transButton02 = transObjects[i].GetComponent<Button>();
+			}else if(transObjects[i].name.Equals ("10")){
+				transButton10 = transObjects[i].GetComponent<Button>();
+			}else if(transObjects[i].name.Equals ("12")){
+				transButton12 = transObjects[i].GetComponent<Button>();
+			}else if(transObjects[i].name.Equals ("20")){
+				transButton20 = transObjects[i].GetComponent<Button>();
+			}else if(transObjects[i].name.Equals ("21")){
+				transButton21 = transObjects[i].GetComponent<Button>();
+			}
+		}
+
+		transButton01.interactable = false;
+		transButton02.interactable = false;
+		transButton10.interactable = false;
+		transButton12.interactable = false;
+		transButton20.interactable = false;
+		transButton21.interactable = false;
+
+		beatBar = GameObject.Find ("Beat Bar").GetComponent<Rotate>();
 
 	}
 
@@ -221,25 +244,30 @@ public class OutputAnalyzerClean : MonoBehaviour {
 //				Debug.Log (topFour[i]);
 //			}
 			artifacts[currentTrack].AddArtifact(audio.timeSamples, topFour);
+
+			beatBar.RotateToBeat();
 		}
 
 		if (Input.GetButtonDown ("NewFlower")) {
-			
+			for(int i=0; i<tracks.Length; i++){
+				tracks[i].Stop ();
+			}
+			//flip initializes at false
 			if(flip){
-				flip=!flip;
-				tracks[1].Stop ();
-				tracks[0].Play ();
-				currentTrack=0;
+				flip=!flip;				
+				newTrack = 0;
+				tracks[newTrack].Play ();
+				currentTrack = newTrack;
+				audio=tracks[currentTrack];
+
+			}else{
+
+				flip=!flip;				
+				newTrack = 1;
+				tracks[newTrack].Play ();
+				currentTrack = newTrack;
 				audio=tracks[currentTrack];
 			}
-			else{
-				flip=!flip;
-				tracks[0].Stop ();
-				tracks[1].Play ();
-				currentTrack=1;
-				audio=tracks[currentTrack];
-			}
-			
 		}
 
 
@@ -247,33 +275,38 @@ public class OutputAnalyzerClean : MonoBehaviour {
 		if (Input.GetButtonDown ("MatchSong")) {
 			if(artifacts[0].MatchSong(artifacts[1])){
 //				Debug.Log ("Enable Button");
-				transButton.interactable = true;
+//				transButton.interactable = true;
+				transButton01.interactable = true;
 			}
+			if(artifacts[1].MatchSong(artifacts[0])){
+				//				Debug.Log ("Enable Button");
+				//				transButton.interactable = true;
+				transButton10.interactable = true;
+			}
+
 		}
 		
 		//Restarts the song and will transition to the other song later on
-		if(Input.GetButtonDown ("TransitionSong")){
-			readyTransition=true;
-			tracks[0].Stop();
-			tracks[1].Stop();
-			tracks[0].time=0;
-			tracks[0].Play();
-			audio=tracks[0];
-			transitionStart = artifacts[0].FindTransition();//this function returns where to stop on tracks[0]
-			warp = artifacts[0].FindWarpPoint ();//this function returns where to start on tracks[1]
-		}
-		
+
 		if (readyTransition) {
-			Debug.Log ("Transition at: " + transitionStart);
-			Debug.Log ("tracks[0].time: " + tracks[0].time);
-			if(tracks[0].time >= transitionStart){
-				tracks[0].Stop();
-				tracks[1].time = artifacts[1].beatStorage[warp]/AudioSettings.outputSampleRate;
-				tracks[1].Play ();
-				audio=tracks[1];
-				currentTrack = 1;
+			Debug.Log ("Transition at: " + transitionStart + " (" + currentTrack + ", " + newTrack +")");
+			Debug.Log ("[0].time: " + tracks[0].time + " [1].time: " + tracks[1].time);
+
+			if(tracks[currentTrack].time >= transitionStart){
+				Debug.Log ("Did the song switch? (" +currentTrack + ", "+ newTrack+ ")");
+				tracks[currentTrack].Stop();
+				tracks[newTrack].time = artifacts[newTrack].beatStorage[warp]/AudioSettings.outputSampleRate;//gives us the time from timesamples
+				tracks[newTrack].Play ();
+				audio=tracks[newTrack];
+				temp = currentTrack;
+				currentTrack = newTrack;
+				newTrack = temp;
+//				currentTrack = newTrack;
+
 				Debug.Log ("Did the song switch?");
 				readyTransition=false;
+				//Instantiate something here.
+				Instantiate(bud, modifyLine.GetFinalPosition(), transform.rotation);
 			}
 			
 		}
@@ -282,34 +315,48 @@ public class OutputAnalyzerClean : MonoBehaviour {
 
 	}
 
-	public void TransitionButton(){
-		transButton.interactable = false;
+	public void TransitionButton01(){
+		//		transButton.interactable = false;
+
+		int source = 0;
+		int transition = 1;
 
 		readyTransition=true;
-		tracks[0].Stop();
-		tracks[1].Stop();
-		tracks[0].time=0;
-		tracks[0].Play();
-		audio=tracks[0];
-		transitionStart = artifacts[0].FindTransition();//this function returns where to stop on tracks[0]
-		warp = artifacts[0].FindWarpPoint ();//this function returns where to start on tracks[1]
-
+		tracks[source].Stop();
+		tracks[transition].Stop();
+		tracks[source].time=0;
+		tracks[source].Play();
+		audio=tracks[source];
+		transitionStart = artifacts[source].FindTransition();//this function returns where to stop on tracks[0]
+		warp = artifacts[source].FindWarpPoint ();//this function returns where to start on tracks[1]
 		
-		if (readyTransition) {
-			Debug.Log ("Transition at: " + transitionStart);
-			Debug.Log ("tracks[0].time: " + tracks[0].time);
-			if(tracks[0].time >= transitionStart){
-				tracks[0].Stop();
-				tracks[1].time = artifacts[1].beatStorage[warp]/AudioSettings.outputSampleRate;
-				tracks[1].Play ();
-				audio=tracks[1];
-				currentTrack = 1;
-				Debug.Log ("Did the song switch like planned?");
-				readyTransition=false;
-			}
-			
-		}
+		currentTrack = 0;
+		newTrack = 1;
+
+		transButton01.interactable = false;
+
 	}
+
+	public void TransitionButton10(){
+		//		transButton.interactable = false;
+		
+		int source = 1;
+		int transition = 0;
+		
+		readyTransition=true;
+		tracks[source].Stop();
+		tracks[transition].Stop();
+		tracks[source].time=0;
+		tracks[source].Play();
+		audio=tracks[source];
+		transitionStart = artifacts[source].FindTransition();//this function returns where to stop on tracks[0]
+		warp = artifacts[source].FindWarpPoint ();//this function returns where to start on tracks[1]
+		
+		currentTrack = 1;
+		newTrack = 0;
+		transButton10.interactable = false;
+	}
+
 
 	void cleanStorage(){
 		for (int i=0; i<spectrumStorage.Length; i++) {
@@ -390,22 +437,9 @@ public class OutputAnalyzerClean : MonoBehaviour {
 		lineY = findHighestAmp () * -10;
 		lineZ = -50;
 
-//		if (Mathf.Abs (lineY) > 9) {
-////			modifyLine.BudOnLastSegmentPosition(lineX, lineY, lineZ);
-//			modifyLine.IncreaseLineSize ();
-//			modifyLine.SetLastSegmentPosition (lineX, lineY, lineZ);
-//			modifyLine.IncreaseLineSize ();
-//			modifyLine.SetLastSegmentPosition (lineX+.7f, lineY-3f, lineZ);
-//			modifyLine.IncreaseLineSize ();
-//			modifyLine.SetLastSegmentPosition (lineX, lineY-6f, lineZ);
-//			modifyLine.IncreaseLineSize ();
-//			modifyLine.SetLastSegmentPosition (lineX-.7f, lineY-3f, lineZ);
-//			modifyLine.IncreaseLineSize ();
-//			modifyLine.SetLastSegmentPosition (lineX, lineY, lineZ);
-//		} else {
-			modifyLine.IncreaseLineSize();
-			modifyLine.SetLastSegmentPosition (lineX, lineY, lineZ);
-//		}
+		modifyLine.IncreaseLineSize();
+		modifyLine.SetLastSegmentPosition (lineX, lineY, lineZ);
+
 	}
 
 	float findHighestAmp(){
@@ -449,7 +483,8 @@ public class OutputAnalyzerClean : MonoBehaviour {
 	}
 
 	public float GetCurrentTime(){
-		return audio.timeSamples;
+//		return audio.timeSamples;
+		return audio.time;
 	}
 
 	public float GetCurrentOutput(){

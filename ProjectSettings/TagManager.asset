@@ -7,6 +7,7 @@ TagManager:
   - SpinMeRight
   - SpinMeLeft
   - SpinMe
+  - TransitionButtons
   layers:
   - Default
   - TransparentFX

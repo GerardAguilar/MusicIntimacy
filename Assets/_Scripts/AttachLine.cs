@@ -10,6 +10,8 @@ public class AttachLine : MonoBehaviour {
 	float posX;
 	float posY;
 //	Vector3 newPosition;
+	public bool justX;
+	public float offsetX;
 
 	private Vector2 velocity;
 
@@ -24,9 +26,13 @@ public class AttachLine : MonoBehaviour {
 //		gameObject.transform.position = newPosition;
 
 		posX = Mathf.SmoothDamp (transform.position.x, (float)(lineScript.GetFinalPosition().x), ref velocity.x, .7f);
-		posY = Mathf.SmoothDamp (transform.position.y, (float)(lineScript.GetFinalPosition().y), ref velocity.y, .2f);
-		
-		transform.position = new Vector3 ((float)(posX+.125f), posY, transform.position.z);
+		posY = Mathf.SmoothDamp (transform.position.y, (float)(lineScript.GetFinalPosition().y), ref velocity.y, .1f);
+
+		if (justX) {
+			transform.position = new Vector3 (posX+offsetX, transform.position.y, transform.position.z);
+		} else {
+			transform.position = new Vector3 ((float)(posX + offsetX), posY, transform.position.z);
+		}
 //		transform.position = new Vector3 (posX, transform.position.y, transform.position.z);
 	}
 }
